@@ -39,7 +39,7 @@ Route::get('/cities/{province_id}', function($province_id) {
     $cities = App\City::where('province_id','=',$province_id)->get();
     return response()->json($cities);
 });
-Route::get('/customer', function() {
+Route::get('/customers', function() {
     $customers = App\Customer::with('city','province')->get();
     return response()->json($customers);
 });

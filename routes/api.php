@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 Route::resource('category', 'CategoryController');
 Route::resource('item', 'ItemController');
 Route::resource('supplier', 'SupplierController');
+Route::resource('customer', 'CustomerController');
 
 Route::get('/categories', function() {
     $categories = App\Category::all();
@@ -34,8 +35,11 @@ Route::get('/suppliers', function() {
     $suppliers = App\Supplier::with('city','province')->get();
     return response()->json($suppliers);
 });
-
 Route::get('/cities/{province_id}', function($province_id) {
     $cities = App\City::where('province_id','=',$province_id)->get();
     return response()->json($cities);
+});
+Route::get('/customer', function() {
+    $customers = App\Customer::with('city','province')->get();
+    return response()->json($customers);
 });

@@ -20,4 +20,12 @@ class Province extends Model
     {
         return $this->hasMany('App\Supplier');
     }
+
+    /**
+     * Get the customers in this province.
+     */
+    public function customers()
+    {
+        return $this->hasMany('App\Customer');
+    }
 }

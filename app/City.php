@@ -21,6 +21,14 @@ class City extends Model
     {
         return $this->hasMany('App\Supplier');
     }
+
+    /**
+     * Get the customers in this city.
+     */
+    public function customers()
+    {
+        return $this->hasMany('App\Customer');
+    }
 }
 
 

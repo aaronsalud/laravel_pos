@@ -87,8 +87,8 @@ var vue = new Vue({
 	},
 	methods:{
 		fetchCategories: function(){
-			this.$http.get('/api/categories',function(data){
-				this.$set('categories',data)
+			this.$http.get('/api/categories').then((response) => {
+				this.$set('categories',response.body)
 			});
 		},
 		saveCategory: function(){
@@ -111,11 +111,11 @@ var vue = new Vue({
 		},
 		editCategory: function(id){
 			this.edit=true
-			this.$http.get('/api/category/'+id,function (data){
-				this.newCategory.id = data.id;
-				this.newCategory.name = data.name;
-				this.newCategory.code = data.code;
-				this.newCategory.description = data.description;
+			this.$http.get('/api/category/').then((response) => {
+				this.newCategory.id = response.body.id;
+				this.newCategory.name = response.body.name;
+				this.newCategory.code = response.body.code;
+				this.newCategory.description = response.body.description;
 			})
 		},
 		updateCategory: function(id){

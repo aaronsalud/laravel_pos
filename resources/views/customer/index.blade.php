@@ -121,8 +121,8 @@ var vue = new Vue({
 	},
 	methods:{
 		fetchSupplier: function(){
-			this.$http.get('/api/customers',function(data){
-				this.$set('customers',data)
+			this.$http.get('/api/customers').then((response) => {
+				this.$set('customers',response.body)
 			});
 		},
 		saveCustomer: function(){
@@ -145,15 +145,15 @@ var vue = new Vue({
 		},
 		editCustomer: function(id){
 			this.edit=true
-			this.$http.get('/api/customer/'+id,function (data){
-				this.newCustomer.id = data.id;
-				this.newCustomer.name = data.name;
-				this.newCustomer.address = data.address;
-				this.newCustomer.province_id = data.province_id;
-				this.getCity(data.province_id);
-				this.newCustomer.city_id = data.city_id;
-				this.newCustomer.phone = data.phone;
-				this.newCustomer.bbm = data.bbm;
+			this.$http.get('/api/customer/'+id).then((response) => {
+				this.newCustomer.id = response.body.id;
+				this.newCustomer.name = response.body.name;
+				this.newCustomer.address = response.body.address;
+				this.newCustomer.province_id = response.body.province_id;
+				this.getCity(response.body.province_id);
+				this.newCustomer.city_id = response.body.city_id;
+				this.newCustomer.phone = response.body.phone;
+				this.newCustomer.bbm = response.body.bbm;
 			})
 		},
 		updateSupplier: function(id){
@@ -179,8 +179,8 @@ var vue = new Vue({
 			this.fetchSupplier()
 		},
 		getCity: function(id){
-			this.$http.get('/api/cities/'+id,function (data){
-				this.cities= data;
+			this.$http.get('/api/cities/'+id).then((response) => {
+				this.cities= response.body;
 			})		
 		}
 	},

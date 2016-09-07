@@ -115,12 +115,13 @@ var vue = new Vue({
 			id:'',code:'',name:'',description:'',price:'',status:'1',category_id:''
 		},
 		success: false,
-		edit: false
+		edit: false,
 	},
 	methods:{
 		fetchItem: function(){
-			this.$http.get('/api/items',function(data){
-				this.$set('items',data)
+			this.$http.get('/api/items').then((response) => {
+				this.$set('items',response.body)
+				// console.log('asaeaea')
 			});
 		},
 		saveItem: function(){
@@ -143,16 +144,14 @@ var vue = new Vue({
 		},
 		editItem: function(id){
 			this.edit=true
-			this.$http.get('/api/item/'+id,function (data){
-				this.newItem.id = data.id;
-				this.newItem.name = data.name;
-				this.newItem.code = data.code;
-				this.newItem.description = data.description;
-				this.newItem.category_id = data.category_id;
-				this.newItem.price = data.price;
-				this.newItem.status = data.status;
-
-
+			this.$http.get('/api/item/'+id).then((response) => {
+				this.newItem.id = response.body.id;
+				this.newItem.name = response.body.name;
+				this.newItem.code = response.body.code;
+				this.newItem.description = response.body.description;
+				this.newItem.category_id = response.body.category_id;
+				this.newItem.price = response.body.price;
+				this.newItem.status = response.body.status;
 			})
 		},
 		updateItem: function(id){

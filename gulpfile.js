@@ -14,6 +14,11 @@ require('laravel-elixir-vue');
  */
 
 elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
+    mix.scripts([
+    	'../bower/vue/dist/vue.min.js',
+		'../bower/vue-resource/dist/vue-resource.min.js',
+    	'../bower/jquery/dist/jquery.min.js',
+	    '../bower/bootstrap/dist/js/bootstrap.min.js',
+	    
+    	]);
 });

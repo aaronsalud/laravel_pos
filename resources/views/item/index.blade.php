@@ -109,11 +109,13 @@
 		    	<p>
 		    		<input type="file" name="images" @change="uploadFile">
 					<div ><img v-show="loading" v-bind:src="loading" alt="@{{loading}}"></div>
-					<div v-if="!error">
-						<img v-bind:src="uploadImage" alt="@{{uploadImage}}">
-					</div>
-					<div v-else>
-						@{{message}}
+					<ul class="list-inline">
+						<li v-for="r in response">
+							<img v-bind:src="r" alt="@{{r}}" width="100px" class="img-thumbnail">
+						</li>
+					</ul>
+					<div v-if="error">
+						<span class="label label-danger">@{{message}}</span>
 					</div>
 		    	</p>
 		    </div>
@@ -146,6 +148,7 @@ var vue = new Vue({
 		message:'',
 		loading:'',
 		uploadImage:'',
+		response:[]
 	},
 	methods:{
 		fetchItem: function(){
@@ -219,15 +222,18 @@ var vue = new Vue({
 			var formData = new FormData();						
 			formData.append("images",file);
 			that.$http.post('/api/add_item_image',formData).then(function (response) {
-	    			var resp = response.body;		                
-		            	that.$set('loading','');
-		            	if (resp.error==true) {
-		            		that.$set('error',true);
-			                this.$set('message',resp.message);
-		            	}else{
-		            		that.$set('error',false);
-							this.$set('uploadImage',resp.message);
-		            	}
+    			var resp = response.body;		                
+            	that.$set('loading','');
+            	if (resp.error==true) {
+            		that.$set('error',true);
+	                this.$set('message',resp.message);
+	                // this.response.unshift(this.message);
+            	}else{
+            		that.$set('error',false);
+					this.$set('uploadImage',resp.message);
+					this.response.unshift(this.uploadImage);
+            	}
+            	// console.log(this.response)
 	        },function (response){
 	        	console.log(response.text())
 	        });

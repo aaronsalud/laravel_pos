@@ -43,3 +43,5 @@ Route::get('/customers', function() {
     $customers = App\Customer::with('city','province')->get();
     return response()->json($customers);
 });
+
+Route::post('add_item_image','ItemController@imageUploadPost');

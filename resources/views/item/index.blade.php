@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title',$title)
 @section('content')
-<div id="items">
+<div id="items ">
 	<h2>Data Barang </h2>
 	<span class="pull-right" style="margin:0 5px 5px 0;">
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#inputModal">New</button></span>
@@ -45,16 +45,24 @@
 	</tbody>
 </table>
 <!-- Modal -->
-
 	<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
+
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="inputModalLabel">Input Barang</h4>
 	      </div>
 	      <div class="modal-body">
-	        <form action="" method="POST" class="form-horizontal" role="form" @submit.prevent="saveItem"> 
+	       <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Detail</a></li>
+		    <li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab">Properti</a></li>
+		  </ul>
+	      <!-- Tab panes -->
+		  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="details">
+				<form action="" method="POST" class="form-horizontal" role="form" @submit.prevent="saveItem"> 
 	        	<div class="form-group">
 	        		<label for="code" class="control-label col-sm-2">Kode</label>
 	        		<div class="col-sm-10">
@@ -89,11 +97,28 @@
 	        			<input type="text" name="price" id="price" class="form-control" placeholder="Harga" autocomplete=off v-model="newItem.price">
 	        		</div>
 	        	</div>
-				<div class="form-group">
+				<div class="form-group" style="padding-left:120px;">
 					<label for="status" class="control-label col-sm-offset-2">
 						<input type="checkbox" name="status" id="status" v-model="newItem.status">   Active
 					</label>
 				</div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="properties">
+		    <div class="form-group">
+		    	<p>Select an image</p>
+		    	<p>
+		    		<input type="file" name="images" @change="uploadFile">
+					<div ><img v-show="loading" v-bind:src="loading" alt="@{{loading}}"></div>
+					<div v-if="!error">
+						<img v-bind:src="uploadImage" alt="@{{uploadImage}}">
+					</div>
+					<div v-else>
+						@{{message}}
+					</div>
+		    	</p>
+		    </div>
+		    </div>
+		  </div>
 	       <div class="alert alert-success" transition="success" v-if="success"> Barang berhasil disimpan</div>
 	      </div>
 	      <div class="modal-footer">
@@ -117,7 +142,10 @@ var vue = new Vue({
 		},
 		success: false,
 		edit: false,
-		activeitem:'active'
+		activeitem:'active',
+		message:'',
+		loading:'',
+		uploadImage:'',
 	},
 	methods:{
 		fetchItem: function(){
@@ -178,6 +206,31 @@ var vue = new Vue({
 			var ConfirmBox = confirm("Hapus barang ini?")
 			if (ConfirmBox) this.$http.delete('/api/item/'+id);
 			this.fetchItem()
+		},
+		uploadFile(e){
+			var file = e.target.files ||e.dataTransfer.files;
+			if(!file.length)
+				return;
+			this.$set('loading','images/ajax-loader-bar.gif');
+			this.processUpload(file[0]);
+		},
+		processUpload(file){
+			var that = this;
+			var formData = new FormData();						
+			formData.append("images",file);
+			that.$http.post('/api/add_item_image',formData).then(function (response) {
+	    			var resp = response.body;		                
+		            	that.$set('loading','');
+		            	if (resp.error==true) {
+		            		that.$set('error',true);
+			                this.$set('message',resp.message);
+		            	}else{
+		            		that.$set('error',false);
+							this.$set('uploadImage',resp.message);
+		            	}
+	        },function (response){
+	        	console.log(response.text())
+	        });
 		}
 	},
 	

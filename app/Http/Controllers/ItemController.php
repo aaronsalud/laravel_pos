@@ -100,4 +100,36 @@ class ItemController extends Controller
         $item = Item::find($id);
         $item->delete();
     }
+
+    public function imageUploadPost(Request $request){
+       if (isset($_FILES['images'])) {
+            $file_name = $_FILES['images']['name'];
+            $file_size = $_FILES['images']['size'];
+            $file_tmp = $_FILES['images']['tmp_name'];
+            $file_type =$_FILES['images']['type'];
+
+            $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+
+            $errors = array();
+            $extensions = array("jpeg","jpg","png","gif");
+
+            if (in_array($file_ext,$extensions)===false) {
+                $errors[]="file tidak didukung, gunakan ekstensi jpeg,jpg,png,gif";
+            }
+
+            if ($file_size > 2097152) {
+                $errors[]="Ukuran file ".$file_name." harus lebih kecil dari 2 MB";
+            }
+
+            if (empty($errors)===true) {
+                move_uploaded_file($file_tmp, public_path('images/items/'.$file_name));
+                $response['error'] = false;
+                $response['message'] =  'images/items/'.$file_name;
+            }else{
+                $response['error'] = true;
+                $response['message'] =  $errors;
+            }
+        }
+            return response()->json($response);
+    }
 }

@@ -85,6 +85,10 @@ div#wrapper {
   margin: 0 10px 0 -5px;
   border: none;
 }
+ul.nav.nav-tabs > li > a{
+  padding: 10px 15px;
+  padding-bottom: 5px;
+}
 .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
   background-color: #f2f4f8 !important;
 }

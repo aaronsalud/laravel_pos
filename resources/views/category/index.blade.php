@@ -113,7 +113,7 @@ var vue = new Vue({
 		},
 		editCategory: function(id){
 			this.edit=true
-			this.$http.get('/api/category/').then((response) => {
+			this.$http.get('/api/category/'+id).then((response) => {
 				this.newCategory.id = response.body.id;
 				this.newCategory.name = response.body.name;
 				this.newCategory.code = response.body.code;

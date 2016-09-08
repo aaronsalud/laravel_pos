@@ -16,7 +16,7 @@ class CustomerController extends Controller
     public function index()
     {
         $provinces = \App\Province::all();
-        return view('customer.index')->with(['provinces'=>$provinces]);
+        return view('customer.index')->with(['provinces'=>$provinces,'title'=>'Pelanggan']);
     }
 
     /**

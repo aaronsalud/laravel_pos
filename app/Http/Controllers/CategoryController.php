@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category.index');
+        return view('category.index')->withTitle('Kategori');
     }
 
     /**

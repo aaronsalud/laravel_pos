@@ -16,7 +16,7 @@ class SupplierController extends Controller
     public function index()
     {
         $provinces = \App\Province::all();
-        return view('supplier.index')->with(['provinces'=>$provinces]);
+        return view('supplier.index')->with(['provinces'=>$provinces,'title'=>'Supplier']);
     }
 
     /**

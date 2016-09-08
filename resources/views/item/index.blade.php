@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title',$title)
 @section('content')
 <div id="items">
 	<h2>Data Barang </h2>

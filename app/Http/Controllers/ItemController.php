@@ -17,7 +17,7 @@ class ItemController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('item.index')->with(['categories'=>$categories]);
+        return view('item.index')->with(['categories'=>$categories,'title'=>'Daftar Barang']);
     }
 
     /**

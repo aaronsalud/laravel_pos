@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title',$title)
 @section('content')
 <div id="categories">
 	<h2>List Categories </h2>

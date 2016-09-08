@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container" id="categories">
+<div id="categories">
 	<h2>List Categories </h2>
 	<span class="pull-right" style="margin:0 5px 5px 0;">
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#inputModal">New</button></span>
@@ -77,13 +77,14 @@
 @push('javascript')
 <script>
 var vue = new Vue({
-	el:'#categories',
+	el:'#wrapper',
 	data:{
 		newCategory:{
 			id:'',code:'',name:'',description:''
 		},
 		success: false,
-		edit: false
+		edit: false,
+		activecategory: 'active'
 	},
 	methods:{
 		fetchCategories: function(){

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container" id="suppliers">
+<div id="suppliers">
 	<h2>Data Suplier </h2>
 	<span class="pull-right" style="margin:0 5px 5px 0;">
 	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#inputModal">New</button></span>
@@ -110,14 +110,15 @@
 @push('javascript')
 <script>
 var vue = new Vue({
-	el:'#suppliers',
+	el:'#wrapper',
 	data:{
 		newSupplier:{
 			id:'',name:'',phone:'',bbm:'',address:'',city_id:'',province_id:''
 		},
 		success: false,
 		edit: false,
-		cities:''
+		cities:'',
+		activesupplier:'active'
 	},
 	methods:{
 		fetchSupplier: function(){

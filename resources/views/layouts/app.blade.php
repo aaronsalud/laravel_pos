@@ -11,7 +11,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/all.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -21,66 +23,77 @@
     </script>
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
+<div id="wrapper">
+        <nav class="navbar-default navbar-static-top" role="navigation">
+             <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+               <h1> <a class="navbar-brand" href="index.html">Minimal</a></h1>         
+               </div>
+             <div class=" border-bottom">
+            <div class="full-left">
+              <section class="full-top">
+                <button id="toggle"><i class="fa fa-arrows-alt"></i></button>   
+            </section>
+            <form class=" navbar-left-right">
+              <input type="text"  value="Search..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search...';}">
+              <input type="submit" value="" class="fa fa-search">
+            </form>
+            <div class="clearfix"> </div>
+           </div>
+            @include('layouts.navbar')
+            <div class="clearfix"></div>
+      
+            @include('layouts.sidebar')
+        </nav>
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+       <div class="content-main">
+ 
+        <!--banner-->   
+            <div class="banner">
+           
+                <h2>
+                <a href="index.html">Home</a>
+                <i class="fa fa-angle-right"></i>
+                <span>Dashboard</span>
+                </h2>
             </div>
-
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    &nbsp;
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ url('/logout') }}"
-                                        onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+        <!--//banner-->
+        
+        <!--content-->
+        <div class="content-top">
+            <div class="blank">
+                <div class="blank-page">
+                    @yield('content')
+                </div>
+            </div>            
+            <div class="clearfix"> </div>
         </div>
-    </nav>
+        
+        <div class="content-mid">
+            <div class="clearfix"></div>
+        </div>
+        <!--//content-->
+        
+     
+        <!---->
+        <div class="copy">
+            <p> &copy; 2016 Minimal. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+        </div>
+        <div class="clearfix"> </div>
+       </div>
+     </div>
+<!---->
 
-    @yield('content')
-
-    <!-- Scripts -->
-    <script src="/js/all.js"></script>
-    @stack('javascript')
+        
+<!-- Scripts -->
+<script src="/js/all.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/scripts.js"></script>
+@stack('javascript')
 </body>
 </html>

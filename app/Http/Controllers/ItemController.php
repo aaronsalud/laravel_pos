@@ -67,9 +67,8 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        $item  =  Item::find($id);
-        $item['itemImages'] = $item->images;
-        return response()->json($item);
+        $items  =  Item::with('images')->find($id);
+        return response()->json($items);
     }
 
     /**
@@ -100,6 +99,13 @@ class ItemController extends Controller
         $item->status = $request->status;
         $item->description = $request->description;
         $item->save();
+        foreach ($request->itemImages as $itemImage) {
+            $itemImages = new ItemImage();
+            $itemImages->item_id = $item->id;
+            $itemImages->path = $itemImage;
+
+            $itemImages->save();
+        }
     }
 
     /**
@@ -148,6 +154,12 @@ class ItemController extends Controller
     }
 
     public function deleteImage($imageName){
+        $itemImage = ItemImage::where('path','=','images/items/'.$imageName)->first();
+        if ($itemImage) {
+            $item_id = $itemImage->item_id;
+            $itemImage->delete();
+            $response['images'] = ItemImage::where('item_id','=',$item_id)->get();
+        }
         if (unlink(('images/items/'.$imageName))) {
             $response['error'] = false;
         }else{

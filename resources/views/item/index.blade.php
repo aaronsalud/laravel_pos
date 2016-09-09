@@ -112,14 +112,11 @@
 		    <div role="tabpanel" class="tab-pane" id="properties">
 		    <div class="form-group">
 		    	<p>Select an image</p>
-		    	<p>
 		    		<input type="file" id="images" name="images" @change="uploadFile">
 					<div ><img v-show="loading" v-bind:src="loading" alt="@{{loading}}"></div>
+					
 					<ul class="list-inline">
-						<li v-for="img in newItem.itemImages">
-							<img v-bind:src="img.path" alt="@{{img.path}}" width="100px" class="img-thumbnail">
-						</li>
-						<li v-for="r in response">
+						<li v-for="r in newItem.itemImages">
 							<div class="imgHolder">
 							    <img v-bind:src="r" alt="@{{r}}" width="100px" class="img-thumbnail">
 							    <span><a href="#" @click="deleteImage(r)">
@@ -129,11 +126,20 @@
 							    </span>
 							</div>
 						</li>
+						<li v-for="img in itemImages" >
+						<div class="imgHolder">
+							<img v-bind:src="img.path" alt="@{{img.path}}" width="100px" class="img-thumbnail">
+							<span><a href="#" @click="deleteImage(img.path)">
+							    	<span class="fa-stack fa-lg">
+							    		<i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i>
+							    	</span></a>
+							    </span>
+						</div>
+						</li>
 					</ul>
 					<div v-if="error">
 						<span class="label label-danger">@{{message}}</span>
 					</div>
-		    	</p>
 		    </div>
 		    </div>
 		  </div>
@@ -164,7 +170,7 @@ var vue = new Vue({
 		message:'',
 		loading:'',
 		uploadImage:'',
-		response:[],
+		itemImages:[],
 		
 	},
 	methods:{
@@ -180,6 +186,7 @@ var vue = new Vue({
 			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]}
 			this.uploadImage=''
 			this.response=[]
+			this.itemImages=[]
 			this.$http.post('/api/item',item)
 			this.success=true
 			self = this
@@ -203,7 +210,7 @@ var vue = new Vue({
 				this.newItem.category_id = response.body.category_id;
 				this.newItem.price = response.body.price;
 				this.newItem.status = response.body.status;
-				this.newItem.itemImages = response.body.itemImages;
+				this.itemImages = response.body.images;
 			})
 		},
 		updateItem: function(id){
@@ -212,7 +219,7 @@ var vue = new Vue({
 			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]}
 			this.uploadImage=''
 			this.response=[]
-
+			this.itemImages=[]
 			this.$http.put('/api/item/'+id,item)
 			this.success=true
 			self = this
@@ -257,8 +264,8 @@ var vue = new Vue({
             	}else{
             		that.$set('error',false);
 					this.$set('uploadImage',resp.message);
-					this.response.unshift(this.uploadImage);
-					this.newItem.itemImages = this.response;
+					// this.response.unshift(this.uploadImage);
+					this.newItem.itemImages.unshift(this.uploadImage);
             	}
             	// console.log(this.response)
 	        },function (response){
@@ -267,13 +274,22 @@ var vue = new Vue({
 		},
 		deleteImage: function(imageName){
 			var img = imageName.replace('images/items/','');
-			this.$http.delete('/api/deleteImage/'+img);
-			this.response = _.without(this.response, imageName)
+
+			this.$http.delete('/api/deleteImage/'+img).then(function (response) {
+				if(response.body.images){
+					this.itemImages = response.body.images
+				}else{
+					this.newItem.itemImages = _.without(this.newItem.itemImages, imageName)
+				}
+			});
+
 			
 		},
 		resetForm: function(){
-			this.newItem={id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]
-		}
+			this.newItem={
+				id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]
+			}
+			this.itemImages=[]
 		}
 	},
 	

@@ -147,7 +147,7 @@ var vue = new Vue({
 	el:'#wrapper',
 	data:{
 		newItem:{
-			id:'',code:'',name:'',description:'',price:'',status:'1',category_id:''
+			id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',productImages:[]
 		},
 		success: false,
 		edit: false,
@@ -155,7 +155,8 @@ var vue = new Vue({
 		message:'',
 		loading:'',
 		uploadImage:'',
-		response:[]
+		response:[],
+		
 	},
 	methods:{
 		fetchItem: function(){
@@ -167,7 +168,7 @@ var vue = new Vue({
 		saveItem: function(){
 			var item = this.newItem
 
-			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:''}
+			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:'',productImages:[]}
 
 			this.$http.post('/api/item',item)
 			this.success=true
@@ -244,6 +245,7 @@ var vue = new Vue({
             		that.$set('error',false);
 					this.$set('uploadImage',resp.message);
 					this.response.unshift(this.uploadImage);
+					this.newItem.productImages = this.response;
             	}
             	// console.log(this.response)
 	        },function (response){

@@ -45,7 +45,10 @@ class ItemController extends Controller
         $item->status = $request->status;
         $item->category_id = $request->category_id;
         $item->description = $request->description;
-        $item->save();    }
+        $item->productImages = $request->productImages;
+        dd($item);
+        // $item->save();    
+    }
 
     /**
      * Display the specified resource.

@@ -13,4 +13,7 @@ class ItemImage extends Model
      */
     protected $table = 'itemImages';
 
+	public function item(){
+   		return $this->belongsTo('App\Item');
+   	}
 }

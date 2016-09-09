@@ -28,7 +28,7 @@ Route::get('/categories', function() {
     return response()->json($categories);
 });
 Route::get('/items', function() {
-    $items = App\Item::with('category')->get();
+    $items = App\Item::with('category','images')->get();
     return response()->json($items);
 });
 Route::get('/suppliers', function() {

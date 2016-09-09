@@ -4,13 +4,13 @@
 <div id="items ">
 	<h2>Data Barang </h2>
 	<span class="pull-right" style="margin:0 5px 5px 0;">
-	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#inputModal">New</button></span>
+	<button @click="resetForm()" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#inputModal">New</button></span>
 	 
 	<table class="table table-bordered">
 	<thead>
 	<tr>
 		<th>Id</th>
-		<th>Kode</th>
+		<th>Gambar</th>
 		<th>Nama</th>
 		<th>Kategori</th>
 		<th>Keterangan</th>
@@ -24,7 +24,13 @@
 	<tbody>
 		<tr v-for="item in items">
 			<td>@{{item.id}}</td>
-			<td>@{{item.code}}</td>
+			<td>
+				<div v-for="image in item.images" class="list-inline" v-if="$index==0" style="position:relative">
+						<img src="@{{image.path}}" alt="@{{image.path}}" class="img-thumbnail" width="100px">
+						<span style="color:#7f8c8d;position:absolute;top:0px;left:0px">@{{item.code}}</span>
+				</div>
+				
+			</td>
 			<td>@{{item.name}}</td>
 			<td>@{{item.category.name}}</td>
 			<td>@{{item.description}}</td>
@@ -110,6 +116,9 @@
 		    		<input type="file" id="images" name="images" @change="uploadFile">
 					<div ><img v-show="loading" v-bind:src="loading" alt="@{{loading}}"></div>
 					<ul class="list-inline">
+						<li v-for="img in newItem.itemImages">
+							<img v-bind:src="img.path" alt="@{{img.path}}" width="100px" class="img-thumbnail">
+						</li>
 						<li v-for="r in response">
 							<div class="imgHolder">
 							    <img v-bind:src="r" alt="@{{r}}" width="100px" class="img-thumbnail">
@@ -194,6 +203,7 @@ var vue = new Vue({
 				this.newItem.category_id = response.body.category_id;
 				this.newItem.price = response.body.price;
 				this.newItem.status = response.body.status;
+				this.newItem.itemImages = response.body.itemImages;
 			})
 		},
 		updateItem: function(id){
@@ -260,6 +270,10 @@ var vue = new Vue({
 			this.$http.delete('/api/deleteImage/'+img);
 			this.response = _.without(this.response, imageName)
 			
+		},
+		resetForm: function(){
+			this.newItem={id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]
+		}
 		}
 	},
 	

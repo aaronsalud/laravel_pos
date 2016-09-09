@@ -68,6 +68,7 @@ class ItemController extends Controller
     public function show($id)
     {
         $item  =  Item::find($id);
+        $item['itemImages'] = $item->images;
         return response()->json($item);
     }
 

@@ -147,7 +147,7 @@ var vue = new Vue({
 	el:'#wrapper',
 	data:{
 		newItem:{
-			id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',productImages:[]
+			id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]
 		},
 		success: false,
 		edit: false,
@@ -168,8 +168,9 @@ var vue = new Vue({
 		saveItem: function(){
 			var item = this.newItem
 
-			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:'',productImages:[]}
-
+			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]}
+			this.uploadImage=''
+			this.response=[]
 			this.$http.post('/api/item',item)
 			this.success=true
 			self = this
@@ -198,7 +199,9 @@ var vue = new Vue({
 		updateItem: function(id){
 			var item = this.newItem
 
-			this.newItem={code:'',name:'',description:''}
+			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]}
+			this.uploadImage=''
+			this.response=[]
 
 			this.$http.put('/api/item/'+id,item)
 			this.success=true
@@ -245,7 +248,7 @@ var vue = new Vue({
             		that.$set('error',false);
 					this.$set('uploadImage',resp.message);
 					this.response.unshift(this.uploadImage);
-					this.newItem.productImages = this.response;
+					this.newItem.itemImages = this.response;
             	}
             	// console.log(this.response)
 	        },function (response){

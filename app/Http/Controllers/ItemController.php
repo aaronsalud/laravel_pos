@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Item;
 use App\Category;
+use App\ItemImage;
 class ItemController extends Controller
 {
     /**
@@ -45,9 +46,17 @@ class ItemController extends Controller
         $item->status = $request->status;
         $item->category_id = $request->category_id;
         $item->description = $request->description;
-        $item->productImages = $request->productImages;
-        dd($item);
-        // $item->save();    
+        
+        if ($item->save()) {
+            foreach ($request->itemImages as $itemImage) {
+                $itemImages = new ItemImage();
+                $itemImages->item_id = $item->id;
+                $itemImages->path = $itemImage;
+
+                $itemImages->save();
+            }
+
+        }    
     }
 
     /**

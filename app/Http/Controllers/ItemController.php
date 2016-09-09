@@ -122,9 +122,10 @@ class ItemController extends Controller
             }
 
             if (empty($errors)===true) {
-                move_uploaded_file($file_tmp, public_path('images/items/'.$file_name));
+                $newName = date('Ymdhis');
+                move_uploaded_file($file_tmp, public_path('images/items/'.$newName.".".$file_ext));
                 $response['error'] = false;
-                $response['message'] =  'images/items/'.$file_name;
+                $response['message'] =  'images/items/'.$newName.".".$file_ext;
             }else{
                 $response['error'] = true;
                 $response['message'] =  $errors;

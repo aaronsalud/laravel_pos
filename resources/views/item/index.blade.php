@@ -107,11 +107,18 @@
 		    <div class="form-group">
 		    	<p>Select an image</p>
 		    	<p>
-		    		<input type="file" name="images" @change="uploadFile">
+		    		<input type="file" id="images" name="images" @change="uploadFile">
 					<div ><img v-show="loading" v-bind:src="loading" alt="@{{loading}}"></div>
 					<ul class="list-inline">
 						<li v-for="r in response">
-							<img v-bind:src="r" alt="@{{r}}" width="100px" class="img-thumbnail">
+							<div class="imgHolder">
+							    <img v-bind:src="r" alt="@{{r}}" width="100px" class="img-thumbnail">
+							    <span><a href="#" @click="deleteImage(r)">
+							    	<span class="fa-stack fa-lg">
+							    		<i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i>
+							    	</span></a>
+							    </span>
+							</div>
 						</li>
 					</ul>
 					<div v-if="error">
@@ -216,6 +223,11 @@ var vue = new Vue({
 				return;
 			this.$set('loading','images/ajax-loader-bar.gif');
 			this.processUpload(file[0]);
+			// jquery function to reset input file
+			var $el = $('#images');
+	        $el.wrap('<form>').closest('form').get(0).reset();
+	        $el.unwrap();
+	        // ---
 		},
 		processUpload(file){
 			var that = this;
@@ -237,6 +249,12 @@ var vue = new Vue({
 	        },function (response){
 	        	console.log(response.text())
 	        });
+		},
+		deleteImage: function(imageName){
+			var img = imageName.replace('images/items/','');
+			this.$http.delete('/api/deleteImage/'+img);
+			this.response = _.without(this.response, imageName)
+			
 		}
 	},
 	

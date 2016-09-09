@@ -21,7 +21,7 @@ elixir(mix => {
 	    '../bower/bootstrap/dist/js/bootstrap.min.js',
 	    '../bower/metisMenu/dist/metisMenu.min.js',
 	    '../bower/jquery.nicescroll/jquery.nicescroll.min.js',
-	    
+	    '../bower/lodash/dist/lodash.min.js'
     	]);
 	mix.styles([
 	    '../bower/bootstrap/dist/css/bootstrap.min.css',

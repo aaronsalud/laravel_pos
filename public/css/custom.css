@@ -1,3 +1,4 @@
+
 #wrapper {
     width: 100%;
 }
@@ -118,4 +119,17 @@
     .navbar-top-links .dropdown-alerts {
         margin-left: auto;
     }
+}
+.imgHolder {
+    position: relative;
+}
+.imgHolder span {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin-right: -8px;
+    margin-top: -4px;
+}
+.imgHolder span a{
+    color: #ff8787;
 }

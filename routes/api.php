@@ -45,3 +45,4 @@ Route::get('/customers', function() {
 });
 
 Route::post('add_item_image','ItemController@imageUploadPost');
+Route::delete('deleteImage/{imageName}','ItemController@deleteImage');

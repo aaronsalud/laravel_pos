@@ -132,4 +132,13 @@ class ItemController extends Controller
         }
             return response()->json($response);
     }
+
+    public function deleteImage($imageName){
+        if (unlink(('images/items/'.$imageName))) {
+            $response['error'] = false;
+        }else{
+            $response['error'] = true;
+        }
+         return response()->json($response);
+    }
 }

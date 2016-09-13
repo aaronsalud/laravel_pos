@@ -25,7 +25,8 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        return view('purchase.form');
+        return view('purchase.form')
+                ->with(['title'=>'Pembelian Barang']);
     }
 
     /**

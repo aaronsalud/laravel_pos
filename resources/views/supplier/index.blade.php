@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title',$title)
 @section('content')
+<div class="blank">
+<div class="blank-page">
 <div id="suppliers">
 	<h2>Data Suplier </h2>
 	<span class="pull-right" style="margin:0 5px 5px 0;">
@@ -106,6 +108,8 @@
 	  </div>
 	  </form>
 	</div>
+</div>
+</div>
 </div>
 @endsection
 @push('javascript')

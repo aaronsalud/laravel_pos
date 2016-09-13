@@ -59,18 +59,15 @@
                 <h2>
                 <a href="index.html">Home</a>
                 <i class="fa fa-angle-right"></i>
-                <span>Dashboard</span>
+                <span>{{$title}}</span>
                 </h2>
             </div>
         <!--//banner-->
         
         <!--content-->
         <div class="content-top">
-            <div class="blank">
-                <div class="blank-page">
-                    @yield('content')
-                </div>
-            </div>            
+        @yield('content')
+                      
             <div class="clearfix"> </div>
         </div>
         

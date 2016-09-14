@@ -1,5 +1,11 @@
 $(function() {
-
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#page-wrapper").toggleClass("hide-sidebar");
+        $("#sidebar").toggleClass("hide-sidebar");
+        $(".nav-label").toggleClass("hide-sidebar");
+        
+    });
     $('#side-menu').metisMenu();
 
 });

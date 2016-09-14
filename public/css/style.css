@@ -279,10 +279,10 @@ ul.nav.navbar-nav.navbar-right {
 .hvr-bounce-to-right:before {
   content: "";
   position: absolute;
-  z-index: -1;
+  /*z-index: -1;*/
   top: 0;
   left: 0;
-  right: 80%;
+  /*right: 80%;*/
   bottom: 0;
   background:#7f8c8d;
   -webkit-transform: scaleX(0);
@@ -297,13 +297,14 @@ ul.nav.navbar-nav.navbar-right {
   transition-timing-function: ease-out;
 }
 .hvr-bounce-to-right:hover, .hvr-bounce-to-right:focus, .hvr-bounce-to-right:active {
-
+  
 }
 .hvr-bounce-to-right:hover:before, .hvr-bounce-to-right:focus:before, .hvr-bounce-to-right:active:before {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
   -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
   transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+  transition: all 2s ease;
 }
 /*----*/
 .nav > li > a {
@@ -317,7 +318,11 @@ ul.nav.navbar-nav.navbar-right {
 .hvr-bounce-to-right:focus i.nav_icon, 
 .hvr-bounce-to-right:active i.nav_icon{
 	color:#fff;
-  
+  background-color: #7f8c8d;
+  transition: 1s;
+  transition-timing-function: ease-out;
+  -webkit-transition: 1s;
+  -webkit-transition-timing-function: ease-out;
 }
 .nav > li > a i {
     margin-right: 14px;

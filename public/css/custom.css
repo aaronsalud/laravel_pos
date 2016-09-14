@@ -1,4 +1,15 @@
-
+#page-wrapper.hide-sidebar{
+   margin: 0 0 0 90px !important;
+}
+#sidebar.hide-sidebar{
+    width: 90px !important;
+}
+.nav-label.hide-sidebar{
+    display: none;
+}
+.content-top{
+    min-height: 500px;
+}
 #wrapper {
     width: 100%;
 }

@@ -22,5 +22,8 @@ class Supplier extends Model
         return $this->belongsTo('App\Province');
     }
 
+    public function purchases(){
+        return $this->hasMany('App\Purchase');
+    }
 
 }

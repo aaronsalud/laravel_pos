@@ -22,6 +22,7 @@ Route::resource('category', 'CategoryController');
 Route::resource('item', 'ItemController');
 Route::resource('supplier', 'SupplierController');
 Route::resource('customer', 'CustomerController');
+Route::resource('purchase', 'PurchaseController');
 
 Route::get('/categories', function() {
     $categories = App\Category::all();
@@ -43,6 +44,17 @@ Route::get('/customers', function() {
     $customers = App\Customer::with('city','province')->get();
     return response()->json($customers);
 });
+Route::get('/getSupplier', function(Request $request) {
+    $suppliers = App\Supplier::where('name','LIKE',$request->q.'%')->with('city','province')->get();
+    return response()->json($suppliers);
+});
 
+Route::get('/getItems', function(Request $request) {
+    $suppliers = App\Item::where('code','LIKE',$request->q.'%')
+                ->orWhere('name','LIKE',$request->q.'%')
+                ->with('images')
+                ->get();
+    return response()->json($suppliers);
+});
 Route::post('add_item_image','ItemController@imageUploadPost');
 Route::delete('deleteImage/{imageName}','ItemController@deleteImage');

@@ -37,7 +37,7 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->item_data);
     }
 
     /**

@@ -2,8 +2,12 @@ $(function() {
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#page-wrapper").toggleClass("hide-sidebar");
-        $("#sidebar").toggleClass("hide-sidebar");
+            $("#sidebar").toggleClass("hide-sidebar");
+        setTimeout(function(){ 
         $(".nav-label").toggleClass("hide-sidebar");
+            
+        }, 750);
+        
         
     });
     $('#side-menu').metisMenu();

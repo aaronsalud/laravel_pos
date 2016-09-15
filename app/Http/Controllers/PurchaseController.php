@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-
+use App\Purchase;
+use App\PurchaseDetail;
 class PurchaseController extends Controller
 {
     /**
@@ -37,7 +38,29 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->item_data);
+        $purchase =  new Purchase();
+        $purchase->supplier_id = $request->supplier_id;
+        $purchase->total = $request->grand_total;
+        if ($purchase->save()) {
+            foreach ($request->purchase_details as $purchase_details) {
+                $purchase_detail = new PurchaseDetail();
+                $purchase_detail->purchase_id = $purchase->id;
+                $purchase_detail->item_id = $purchase_details['id'];
+                $purchase_detail->amount = $purchase_details['amount'];
+                $purchase_detail->sub_total = ($purchase_details['amount'] * $purchase_details['price']);
+                if ($purchase_detail->save()) {
+                    $response['error'] = false;
+                    $response['message'] =  'Saved';
+                }else{
+                    $response['error'] = true;
+                    $response['message'] =  'Error';
+
+                }
+            }
+                return response()->json($response);
+
+
+        }    
     }
 
     /**

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title',$title)
 @section('content')
+<div class="alert alert-success" v-if="response" style="margin:0 15px 15px">@{{response}}</div>
 	<div class="col-md-4 col-sm-4 banner">
 			<h2>Supplier</h2><br>
 			<autocomplete
@@ -64,12 +65,12 @@
 			<tr v-for="item in data_item">
 				<td>@{{item.code}}</td>
 				<td>@{{item.name}}</td>
-				<td class="col-sm-1" style="padding-top:5px"><input style="width:50px" type="text" class="text-right input-sm" v-model="item.jumlah" value="1" ></td>
+				<td class="col-sm-1" style="padding-top:5px"><input style="width:50px" type="text" class="text-right input-sm" v-model="item.amount" value="1" ></td>
 				<td class="text-right currency">@{{item.price|currencyDisplay}}</td>
-				<td class="text-right currency">@{{item.jumlah*item.price | currencyDisplay}}</td>
+				<td class="text-right currency">@{{item.amount*item.price | currencyDisplay}}</td>
 			</tr>
 		</table>
-		<button class="btn btn-success btn-save-transaction" @click="saveTransaction" v-if="data_item!=''"><i class="fa fa-save"></i>  Save</button>
+		<button class="btn btn-success btn-save-transaction" @click="saveTransaction" v-if="data_item!=''"><i class="fa fa-save"></i>  Save</button> 
 		</div>
 		</div>
 	</div>
@@ -89,31 +90,31 @@ var vue = new Vue({
 		data_supplier:'',
 		model_item:'',
 		data_item:[],
+		response:''
 	},
 	methods:{
 		saveTransaction: function(){
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth()+1; //January is 0!
-			var yyyy = today.getFullYear();
-
-			if(dd<10) {
-			    dd='0'+dd
-			} 
-
-			if(mm<10) {
-			    mm='0'+mm
-			} 
-
-			today = yyyy+'-'+mm+'-'+dd;
 			var data_transaction = {
-				purchase_date:today,
 				supplier_id:this.data_supplier.id,
-				item_data:this.data_item,
-				grand_total:vue.grand_total
+				grand_total:vue.grand_total,
+				purchase_details:this.data_item
 			}
 
-			this.$http.post('/api/purchase',data_transaction)
+			this.$http.post('/api/purchase',data_transaction).then((response) => {
+				if(response.body.error == false){
+					$('#supplierautocomplete').val('');
+					this.supplierautocomplete=false,
+					this.model_supplier='',
+					this.data_supplier='',
+					this.model_item='',
+					this.data_item=[],
+					this.response=response.body.message
+					self = this
+					setTimeout(function(){
+						self.response = ''
+					},2000)
+				}
+			})
 		}
 	},
 	ready: function(){
@@ -125,19 +126,24 @@ var vue = new Vue({
 			console.log('selected',data);
 			this.data_supplier = data;
 			this.supplierautocomplete=true;
+			
+
 		},
 		'autocomplete-item:selected': function(data){
 			console.log('items selected',data);
 			this.data_item.push(data);
 		},
+		'autocomplete-supplier:hide': function(){
+			$('#supplierautocomplete').val('');
+		},
 		'autocomplete-item:hide': function(){
-			this.model_item='';
+			$('#itemautocomplete').val('');
 		},
 	},
 	computed: {
   	grand_total: function(){
 	    return this.data_item.reduce(function(prev, product){
-	    	var sub_total = product.jumlah * product.price; 
+	    	var sub_total = product.amount * product.price; 
 	    	// this.grand_total = sub_total;
 	       	return prev+sub_total;
 	    },0); 

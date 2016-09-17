@@ -40,7 +40,7 @@
 	<div class="col-md-7 col-sm-6 banner" >
 		<h2>Data Barang Pembelian</h2><br>
 		<div v-if="supplierautocomplete" style="margin-left:-15px">
-		<div class="col-md-6" ><autocomplete
+		<div class="col-md-4" ><autocomplete
 			id="itemautocomplete"
 			class="form-control"
 			name="item"
@@ -53,6 +53,7 @@
 			model="model_item">
 		</autocomplete>		
 		</div>
+		<div class="col-md-2"><button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#inputItemModal" @click="getCategories"><i class="fa fa-stack fa-plus"></i></button></div>
 		<div class="col-md-6">
 			<h2 style=" padding-top: 5px; font-size: 25px;"> Total : @{{grand_total|currencyDisplay}}</h2>
 		</div>
@@ -67,7 +68,7 @@
 				<th class="col-xs-3">Total</th>
 			</tr>
 			<tr v-for="item in data_item">
-				<td>@{{item.code}}</td>
+				<td>@{{item.code}} @{{item.id}}</td>
 				<td>@{{item.name}}</td>
 				<td style="padding-top:5px"><input type="text" class="text-right input-sm form-control" style="margin:0px" v-model="item.amount" value="1" ></td>
 				<td style="padding-top:5px"><input type="text" class="text-right input-sm form-control" style="margin:0px" v-model="item.price|currencyDisplay" ></td>
@@ -81,6 +82,7 @@
 
 	<!-- Modal -->
     @include('purchase.inputSupplierModal')
+    @include('purchase.inputItemModal')
 </div>
 @endsection
 @push('javascript')
@@ -100,7 +102,11 @@ var vue = new Vue({
 		cities:'',
 		newSupplier:{
 			id:'',name:'',phone:'',bbm:'',address:'',city_id:'',province_id:''
-		}
+		},
+		newItem:{
+			id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]
+		},
+		categories:''
 	},
 	methods:{
 		saveTransaction: function(){
@@ -131,6 +137,11 @@ var vue = new Vue({
 				this.provinces = response.body
 			})
 		},
+		getCategories: function(){
+			this.$http.get('/api/categories').then((response) => {
+				this.categories = response.body
+			})
+		},
 		getCity: function(id){
 			this.$http.get('/api/cities/'+id).then((response) => {
 				this.cities= response.body;
@@ -152,6 +163,74 @@ var vue = new Vue({
 			},500)
 
 		},
+		saveItem: function(){
+			var item = this.newItem
+			this.newItem={code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]}
+			this.uploadImage=''
+			this.$http.post('/api/item',item).then((response) => {
+				item.id = response.body.id
+			})		
+			this.data_item.push(item);
+			// this.data_item=item;
+			console.log(this.data_item)
+			setTimeout(function(){
+				// --- jquery function to hide modal
+				$('#inputItemModal').modal('hide');
+				// ---
+			},500)
+		},uploadFile(e){
+			var file = e.target.files ||e.dataTransfer.files;
+			if(!file.length)
+				return;
+			this.$set('loading','images/ajax-loader-bar.gif');
+			this.processUpload(file[0]);
+			// jquery function to reset input file
+			var $el = $('#images');
+	        $el.wrap('<form>').closest('form').get(0).reset();
+	        $el.unwrap();
+	        // ---
+		},
+		processUpload(file){
+			var that = this;
+			var formData = new FormData();						
+			formData.append("images",file);
+			that.$http.post('/api/add_item_image',formData).then(function (response) {
+    			var resp = response.body;		                
+            	that.$set('loading','');
+            	if (resp.error==true) {
+            		that.$set('error',true);
+	                this.$set('message',resp.message);
+	                // this.response.unshift(this.message);
+            	}else{
+            		that.$set('error',false);
+					this.$set('uploadImage',resp.message);
+					// this.response.unshift(this.uploadImage);
+					this.newItem.itemImages.unshift(this.uploadImage);
+            	}
+            	// console.log(this.response)
+	        },function (response){
+	        	console.log(response.text())
+	        });
+		},
+		deleteImage: function(imageName){
+			var img = imageName.replace('images/items/','');
+
+			this.$http.delete('/api/deleteImage/'+img).then(function (response) {
+				if(response.body.images){
+					this.itemImages = response.body.images
+				}else{
+					this.newItem.itemImages = _.without(this.newItem.itemImages, imageName)
+				}
+			});
+
+			
+		},
+		resetForm: function(){
+			this.newItem={
+				id:'',code:'',name:'',description:'',price:'',status:'1',category_id:'',itemImages:[]
+			}
+			this.itemImages=[]
+		}
 	},
 	ready: function(){
 		

@@ -55,7 +55,7 @@ class ItemController extends Controller
 
                 $itemImages->save();
             }
-
+            return response()->json(['id'=>$item->id]);
         }    
     }
 

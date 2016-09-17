@@ -44,7 +44,9 @@ class SupplierController extends Controller
         $supplier->address=$request->address;
         $supplier->city_id=$request->city_id;
         $supplier->province_id=$request->province_id;
-        $supplier->save();
+        if ($supplier->save()) {
+            return response()->json(['id'=>$supplier->id]);
+        }
     }
 
     /**

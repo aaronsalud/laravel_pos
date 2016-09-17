@@ -80,7 +80,7 @@
 	</div>
 
 	<!-- Modal -->
-    @include('inputSupplierModal')
+    @include('purchase.inputSupplierModal')
 </div>
 @endsection
 @push('javascript')
@@ -140,20 +140,17 @@ var vue = new Vue({
 			var supplier = this.newSupplier
 
 			this.newSupplier={name:'',phone:'',bbm:'',address:'',city_id:'',province_id:''}
-			this.$http.post('/api/supplier',supplier)
-			this.success=true
-			self = this
+			this.$http.post('/api/supplier',supplier).then((response) => {
+				this.data_supplier.id = response.body.id
+			})		
+			this.data_supplier=supplier;
+			this.supplierautocomplete=true;
 			setTimeout(function(){
-				self.success = false
-				self.edit = false
-				this.data_supplier=supplier;
-
 				// --- jquery function to hide modal
 				$('#inputSupplierModal').modal('hide');
 				// ---
 			},500)
 
-			this.fetchSupplier();
 		},
 	},
 	ready: function(){
@@ -165,8 +162,6 @@ var vue = new Vue({
 			console.log('selected',data);
 			this.data_supplier = data;
 			this.supplierautocomplete=true;
-			
-
 		},
 		'autocomplete-item:selected': function(data){
 			console.log('items selected',data);

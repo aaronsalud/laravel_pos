@@ -4,7 +4,9 @@
 <div class="alert alert-success" v-if="response" style="margin:0 15px 15px">@{{response}}</div>
 	<div class="col-md-4 col-sm-4 banner">
 			<h2>Supplier</h2><br>
-			<autocomplete
+			<div class="row">
+				<div class="col-md-10">
+				<autocomplete
 				id="supplierautocomplete"
 				class="form-control"
 				name="supplier"
@@ -15,7 +17,9 @@
 				anchor="name"
 				label="address"
 				model="model_supplier">
-			</autocomplete>
+				</autocomplete>
+				</div>
+				<div class="col-md-2"><button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#inputSupplierModal" @click="getProvinces"><i class="fa fa-stack fa-plus"></i></button></div></div>
 			<hr>
 			<table class="table" v-if="data_supplier">
 				<tr>
@@ -56,17 +60,17 @@
 		<hr>
 		<table class="table table-bordered table-condensed">
 			<tr>
-				<th>Kode</th>
-				<th>Nama</th>
-				<th>Jumlah</th>
-				<th>Harga</th>
-				<th>Total</th>
+				<th class="col-xs-2">Kode</th>
+				<th class="col-xs-3">Nama</th>
+				<th class="col-xs-1">Jumlah</th>
+				<th class="col-xs-3">Harga</th>
+				<th class="col-xs-3">Total</th>
 			</tr>
 			<tr v-for="item in data_item">
 				<td>@{{item.code}}</td>
 				<td>@{{item.name}}</td>
-				<td class="col-sm-1" style="padding-top:5px"><input style="width:50px" type="text" class="text-right input-sm" v-model="item.amount" value="1" ></td>
-				<td class="text-right currency">@{{item.price|currencyDisplay}}</td>
+				<td style="padding-top:5px"><input type="text" class="text-right input-sm form-control" style="margin:0px" v-model="item.amount" value="1" ></td>
+				<td style="padding-top:5px"><input type="text" class="text-right input-sm form-control" style="margin:0px" v-model="item.price|currencyDisplay" ></td>
 				<td class="text-right currency">@{{item.amount*item.price | currencyDisplay}}</td>
 			</tr>
 		</table>
@@ -75,7 +79,8 @@
 		</div>
 	</div>
 
-	
+	<!-- Modal -->
+    @include('inputSupplierModal')
 </div>
 @endsection
 @push('javascript')
@@ -90,7 +95,12 @@ var vue = new Vue({
 		data_supplier:'',
 		model_item:'',
 		data_item:[],
-		response:''
+		response:'',
+		provinces:'',
+		cities:'',
+		newSupplier:{
+			id:'',name:'',phone:'',bbm:'',address:'',city_id:'',province_id:''
+		}
 	},
 	methods:{
 		saveTransaction: function(){
@@ -115,7 +125,36 @@ var vue = new Vue({
 					},2000)
 				}
 			})
-		}
+		},
+		getProvinces: function(){
+			this.$http.get('/api/provinces').then((response) => {
+				this.provinces = response.body
+			})
+		},
+		getCity: function(id){
+			this.$http.get('/api/cities/'+id).then((response) => {
+				this.cities= response.body;
+			})		
+		},
+		saveSupplier: function(){
+			var supplier = this.newSupplier
+
+			this.newSupplier={name:'',phone:'',bbm:'',address:'',city_id:'',province_id:''}
+			this.$http.post('/api/supplier',supplier)
+			this.success=true
+			self = this
+			setTimeout(function(){
+				self.success = false
+				self.edit = false
+				this.data_supplier=supplier;
+
+				// --- jquery function to hide modal
+				$('#inputSupplierModal').modal('hide');
+				// ---
+			},500)
+
+			this.fetchSupplier();
+		},
 	},
 	ready: function(){
 		

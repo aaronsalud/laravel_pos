@@ -47,6 +47,7 @@ class PurchaseController extends Controller
                 $purchase_detail->purchase_id = $purchase->id;
                 $purchase_detail->item_id = $purchase_details['id'];
                 $purchase_detail->amount = $purchase_details['amount'];
+                $purchase_detail->price = $purchase_details['price'];
                 $purchase_detail->sub_total = ($purchase_details['amount'] * $purchase_details['price']);
                 if ($purchase_detail->save()) {
                     $response['error'] = false;

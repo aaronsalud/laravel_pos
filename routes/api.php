@@ -36,6 +36,10 @@ Route::get('/suppliers', function() {
     $suppliers = App\Supplier::with('city','province')->get();
     return response()->json($suppliers);
 });
+Route::get('/provinces', function() {
+    $provinces = App\Province::all();
+    return response()->json($provinces);
+});
 Route::get('/cities/{province_id}', function($province_id) {
     $cities = App\City::where('province_id','=',$province_id)->get();
     return response()->json($cities);

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'La Point Of Sales',
+    'name' => 'Encuzz Point Of Sales',
 
     /*
     |--------------------------------------------------------------------------

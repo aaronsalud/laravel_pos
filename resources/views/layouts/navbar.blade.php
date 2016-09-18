@@ -70,6 +70,17 @@
             <li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
             <li><a href="calendar.html"><i class="fa fa-calendar"></i>Calender</a></li>
             <li><a href="inbox.html"><i class="fa fa-clipboard"></i>Tasks</a></li>
+            <li>
+                <a href="{{ url('/logout') }}"
+                    onclick="event.preventDefault();
+                             document.getElementById('logout-form').submit();">
+                    <i class="fa fa-sign-out"></i> Logout
+                </a>
+
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </li>
           </ul>
         </li>
        

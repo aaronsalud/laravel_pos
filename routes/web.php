@@ -10,15 +10,13 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-
-Route::get('/', 'HomeController@index');
-
 Auth::routes();
-
-Route::get('/home', 'HomeController@index');
-
+Route::group(['middleware' => 'auth'], function() {
+    //
+Route::get('/', 'HomeController@index');
 Route::get('category', 'CategoryController@index');
 Route::get('item', 'ItemController@index');
 Route::get('supplier', 'SupplierController@index');
 Route::get('customer', 'CustomerController@index');
 Route::get('purchase', 'PurchaseController@create');
+});

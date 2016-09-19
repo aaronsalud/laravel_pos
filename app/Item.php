@@ -18,4 +18,8 @@ class Item extends Model
    	public function images(){
    		return $this->hasMany('App\ItemImage');
    	}
+
+    public function purchase_details(){
+      return $this->hasMany('App\PurchaseDetail');
+    }
 }

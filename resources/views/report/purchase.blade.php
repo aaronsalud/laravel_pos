@@ -22,9 +22,7 @@
 			<td>@{{purchase.created_at}}</td>
 			<td>@{{purchase.supplier.name}}</td>
 			<td class="text-right">@{{purchase.total|currencyDisplay}}</td>
-			<td>
-				<button class="btn btn-default btn-sm" @click="editSupplier(supplier.id)" data-toggle="modal" data-target="#inputModal"><i class="glyphicon glyphicon-edit"></i></button>
-				<button class="btn btn-danger btn-sm" @click="removeSupplier(supplier.id)"><i class="glyphicon glyphicon-trash"></i></button>
+			<td> <a href="/report/purchase/@{{purchase.id}}"><i class="glyphicon glyphicon-edit"></i></a>
 			</td>
 		</tr>
 	</tbody>
@@ -38,6 +36,7 @@
 var vue = new Vue({
 	el:'#wrapper',
 	data:{
+		activepurchasereport:'active',
 		purchases:[]
 	},
 	methods:{

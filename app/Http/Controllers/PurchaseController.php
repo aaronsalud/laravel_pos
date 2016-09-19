@@ -72,7 +72,8 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
-        //
+        $purchase =  Purchase::with('supplier')->with('details')->with('details.item')->find($id);
+        return response()->json($purchase);
     }
 
     /**

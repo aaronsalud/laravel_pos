@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('supplier', 'SupplierController@index');
 	Route::get('customer', 'CustomerController@index');
 	Route::get('purchase', 'PurchaseController@create');
-	Route::get('purchase/report', 'PurchaseReportController@index');
+	Route::get('report/purchase', 'PurchaseReportController@index');
+	Route::get('report/purchase/{id}', 'PurchaseReportController@show');
 
 });

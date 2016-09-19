@@ -19,7 +19,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 <body>
     <div class="login">
-        <h1><a href="/">Minimal </a></h1>
+        <h1><a href="/">{{ config('app.name') }} </a></h1>
         <div class="login-bottom">
             <h2>Login</h2>
             <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">

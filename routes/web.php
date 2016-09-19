@@ -13,10 +13,12 @@
 Auth::routes();
 Route::group(['middleware' => 'auth'], function() {
     //
-Route::get('/', 'HomeController@index');
-Route::get('category', 'CategoryController@index');
-Route::get('item', 'ItemController@index');
-Route::get('supplier', 'SupplierController@index');
-Route::get('customer', 'CustomerController@index');
-Route::get('purchase', 'PurchaseController@create');
+	Route::get('/', 'HomeController@index');
+	Route::get('category', 'CategoryController@index');
+	Route::get('item', 'ItemController@index');
+	Route::get('supplier', 'SupplierController@index');
+	Route::get('customer', 'CustomerController@index');
+	Route::get('purchase', 'PurchaseController@create');
+	Route::get('purchase/report', 'PurchaseReportController@index');
+
 });

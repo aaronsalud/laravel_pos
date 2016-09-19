@@ -60,5 +60,9 @@ Route::get('/getItems', function(Request $request) {
                 ->get();
     return response()->json($suppliers);
 });
+Route::get('/purchases/reports', function() {
+    $purchases = App\Purchase::with('supplier')->get();
+    return response()->json($purchases);
+});
 Route::post('add_item_image','ItemController@imageUploadPost');
 Route::delete('deleteImage/{imageName}','ItemController@deleteImage');

@@ -30,9 +30,9 @@
         <li >
             <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i> <span class="nav-label">Laporan</span><span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
-                <li><a href="{{ url('purchase/report')}}" class=" hvr-bounce-to-right"> <i class="fa fa-line-chart nav_icon @{{activepurchase}}"></i>Pembelian</a></li>
+                <li><a href="{{ url('purchase/report')}}" class=" hvr-bounce-to-right"> <i class="fa fa-line-chart nav_icon @{{activepurchasereport}}"></i>Pembelian</a></li>
                 
-                <li><a href="{{url('sale/report')}}" class=" hvr-bounce-to-right"><i class="fa fa-bar-chart nav_icon @{{activeitem}}"></i>Penjualan</a></li>
+                <li><a href="{{url('sale/report')}}" class=" hvr-bounce-to-right"><i class="fa fa-bar-chart nav_icon @{{activeitemreport}}"></i>Penjualan</a></li>
            </ul>
         </li>
          <li>

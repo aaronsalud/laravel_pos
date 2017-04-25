@@ -61,7 +61,7 @@ Route::get('/getItems', function(Request $request) {
     return response()->json($suppliers);
 });
 Route::get('/purchases/reports', function() {
-    $purchases = App\Purchase::with('supplier')->get();
+    $purchases = App\Purchase::with('supplier')->orderBy('created_at', 'desc')->get();
     return response()->json($purchases);
 });
 Route::post('add_item_image','ItemController@imageUploadPost');

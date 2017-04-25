@@ -6,7 +6,7 @@
 <div id="suppliers">
 	<h2>Laporan Pembelian </h2>
 	<span class="pull-right" style="margin:0 5px 5px 0;">
-	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#inputModal">New</button></span>
+	</span>
 	 
 	<table class="table table-bordered">
 	<thead>
@@ -22,7 +22,7 @@
 			<td>@{{purchase.created_at}}</td>
 			<td>@{{purchase.supplier.name}}</td>
 			<td class="text-right">@{{purchase.total|currencyDisplay}}</td>
-			<td> <a href="/report/purchase/@{{purchase.id}}"><i class="glyphicon glyphicon-edit"></i></a>
+			<td> <a href="/report/purchase/@{{purchase.id}}" class="btn btn-sm btn-warning"><i style="color:white" class="glyphicon glyphicon-edit"></i> Lihat Detail</a>
 			</td>
 		</tr>
 	</tbody>

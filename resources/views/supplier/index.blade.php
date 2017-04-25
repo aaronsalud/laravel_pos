@@ -41,8 +41,7 @@
 		</tr>
 	</tbody>
 </table>
-<!-- Modal -->
-
+	<!-- Modal -->
 	<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
